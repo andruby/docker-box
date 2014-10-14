@@ -7,6 +7,9 @@ ENV NODE_VERSION 0.11.14
 ENV NPM_VERSION 2.1.3
 ENV RUBY_VERSION ruby2.1
 
+ENV REDIS_VERSION 2.8.17
+ENV REDIS_DOWNLOAD_SHA1 913479f9d2a283bfaadd1444e17e7bab560e5d1e
+
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y build-essential autoconf imagemagick libmysqlclient-dev
 RUN apt-get install -y wget libfreetype6 libfontconfig bzip2 git
@@ -55,14 +58,26 @@ RUN \
  rm -rf /var/lib/mysql/mysql && \
  rm -rf /var/lib/apt/lists/* # 20140918
 
-ADD mysql-start.sh /mysql-start.sh
-RUN chmod 755 /mysql-start.sh
+# Install Redis
+# From https://github.com/docker-library/redis
+RUN \
+	mkdir -p /usr/src/redis && \
+	wget -q -O redis.tar.gz http://download.redis.io/releases/redis-$REDIS_VERSION.tar.gz && \
+	echo "$REDIS_DOWNLOAD_SHA1 *redis.tar.gz" | sha1sum -c - && \
+	tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1 && \
+	rm redis.tar.gz && \
+	make -C /usr/src/redis && \
+	make -C /usr/src/redis install && \
+	rm -r /usr/src/redis
 
 # Default values for MySQL
 ENV DB_NAME box
 ENV DB_USER box
 ENV DB_PASS box
 
+ADD start-mysql.sh /start-mysql.sh
+ADD start-services.sh /start-services.sh
+
 # Default command
-CMD ["/mysql-start.sh"]
+CMD "/start-services.sh"
 
