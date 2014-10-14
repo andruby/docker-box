@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-MAINTAINER Andrew Fecheyr
+MAINTAINER Andrew Fecheyr <andrew@bedesign.be>
 
 ENV PHANTOMJS_VERSION 1.9.7
 ENV NODE_VERSION 0.11.14
