@@ -8,6 +8,7 @@ ENV NPM_VERSION 2.1.3
 ENV RUBY_VERSION ruby2.1
 
 RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y build-essential autoconf imagemagick libffi-dev libssl-dev
 RUN apt-get install -y wget libfreetype6 libfontconfig bzip2 git
 
 # Install phantomjs
@@ -25,7 +26,7 @@ RUN \
   apt-get install -y software-properties-common && \
   apt-add-repository ppa:brightbox/ruby-ng && \
   apt-get update && \
-  apt-get install -y $RUBY_VERSION && \
+  apt-get install -y $RUBY_VERSION $RUBY_VERSION-dev && \
   gem install bundler --no-document
 
 # Install NPM
