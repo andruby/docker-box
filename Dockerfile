@@ -8,7 +8,7 @@ ENV NPM_VERSION 2.1.3
 ENV RUBY_VERSION ruby2.1
 
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y build-essential autoconf imagemagick libffi-dev libssl-dev
+RUN apt-get install -y build-essential autoconf imagemagick libmysqlclient-dev
 RUN apt-get install -y wget libfreetype6 libfontconfig bzip2 git
 
 # Install phantomjs
