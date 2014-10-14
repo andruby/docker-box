@@ -8,10 +8,10 @@ ENV NPM_VERSION 2.1.3
 ENV RUBY_VERSION ruby2.1
 
 RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y wget libfreetype6 libfontconfig bzip2 git
 
 # Install phantomjs
 # From https://github.com/cmfatih/dockerhub
-RUN apt-get install -y wget libfreetype6 libfontconfig bzip2
 RUN \
   wget -q --no-check-certificate -O /tmp/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 && \
   tar -xjf /tmp/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -C /tmp && \
@@ -30,6 +30,7 @@ RUN \
 
 # Install NPM
 # From https://github.com/docker-library/node
+# TODO: This leaves dirty bits in /usr/local
 # verify gpg and sha256: http://nodejs.org/dist/v0.10.31/SHASUMS256.txt.asc
 # gpg: aka "Timothy J Fontaine (Work) <tj.fontaine@joyent.com>"
 RUN gpg --keyserver pgp.mit.edu --recv-keys 7937DFD2AB06298B2293C3187D33FF9D0246406D
@@ -52,9 +53,6 @@ RUN \
  apt-get install -y mysql-server && \
  rm -rf /var/lib/mysql/mysql && \
  rm -rf /var/lib/apt/lists/* # 20140918
-
-# Cleanup apt-get
-RUN apt-get autoremove -y && apt-get clean all
 
 ADD mysql-start.sh /mysql-start.sh
 RUN chmod 755 /mysql-start.sh
