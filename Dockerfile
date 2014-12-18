@@ -48,9 +48,6 @@ RUN \
   npm install -g npm@"$NPM_VERSION" && \
   npm cache clear
 
-# Install testem
-RUN npm install -g testem && npm cache clear
-
 # Install MySQL
 # From https://github.com/sameersbn/docker-mysql
 RUN \
@@ -69,6 +66,9 @@ RUN \
 	make -C /usr/src/redis && \
 	make -C /usr/src/redis install && \
 	rm -r /usr/src/redis
+
+# Install npms
+RUN npm install -g testem ember-cli bower && npm cache clear
 
 # Default values for MySQL
 ENV DB_NAME box
