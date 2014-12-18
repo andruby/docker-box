@@ -70,6 +70,9 @@ RUN \
 # Install npms
 RUN npm install -g testem ember-cli bower && npm cache clear
 
+# Install often used ruby gems
+RUN gem install rails:4.1.6 dragonfly:1.0.5 nokogiri:1.6.2.1 --no-document
+
 # Default values for MySQL
 ENV DB_NAME box
 ENV DB_USER box
