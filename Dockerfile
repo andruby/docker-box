@@ -11,7 +11,7 @@ ENV REDIS_VERSION 2.8.17
 ENV REDIS_DOWNLOAD_SHA1 913479f9d2a283bfaadd1444e17e7bab560e5d1e
 
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y build-essential autoconf imagemagick libmysqlclient-dev
+RUN apt-get install -y build-essential autoconf imagemagick libmagickwand-dev libmysqlclient-dev
 RUN apt-get install -y wget libfreetype6 libfontconfig bzip2 git
 
 # Install phantomjs
